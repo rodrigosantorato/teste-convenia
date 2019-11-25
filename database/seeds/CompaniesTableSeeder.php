@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
-use App\User;
+use App\Company;
 
-class UsersTableSeeder extends Seeder
+class CompaniesTableSeeder extends Seeder
 {
     public function run()
     {
@@ -12,8 +12,8 @@ class UsersTableSeeder extends Seeder
 
         foreach(range(1, 30) as $index)
         {
-            User::create([
-                'name' => $faker->name,
+            Company::create([
+                'company_name' => $faker->company,
                 'email' => $faker->email,
                 'password' => $faker->password,
                 'street_name' => $faker->streetName,
