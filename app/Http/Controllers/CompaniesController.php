@@ -9,32 +9,32 @@ use Illuminate\Http\Request;
 
 class CompaniesController extends ApiController
 {
-    protected $userTransformer;
+    protected $companyTransformer;
 
-    function __construct(CompanyTransformer $userTransformer)
+    function __construct(CompanyTransformer $companyTransformer)
     {
-        $this->userTransformer = $userTransformer;
+        $this->companyTransformer = $companyTransformer;
     }
 
     public function index()
     {
         $companies = Company::all();
         return Response::json([
-            'data' => $this->userTransformer->transformCollection($companies->all())
+            'data' => $this->companyTransformer->transformCollection($companies->all())
         ]);
     }
 
     public function show($id)
     {
-        $user = Company::find($id);
+        $company = Company::find($id);
 
-        if (!$user)
+        if (!$company)
         {
-            return $this->respondNotFound('Não achei essa Empresa :(');
+            return $this->respondNotFound('Não achei essa Empresa...');
         }
 
         return $this->respond([
-            'data' => $this->userTransformer->transform($user)
+            'Company Info' => $this->companyTransformer->transform($company)
         ]);
     }
 

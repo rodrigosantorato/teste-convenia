@@ -9,17 +9,17 @@ class CompanyTransformer extends Transformer
     public function transform($company)
     {
         return [
-            'company_name' => $company['company_name'],
+            'name' => $company['name'],
             'email' => $company['email'],
             'password' => $company['password'],
-            'phone' => (int) $company['phone'],
+            'phone' => $company['phone'],
             'street_name' => $company['street_name'],
-            'street_number' => (int) $company['street_number'],
+            'street_number' =>  $company['street_number'],
             'additional_info' => $company['additional_info'],
             'city' => $company['city'],
             'state' => $company['state'],
-            'cep' => (int) $company['cep'],
-            'cnpj' => (int) $company['cnpj'],
+            'cep' => $company['cep'],
+            'cnpj' => $company['cnpj'],
         ];
     }
 }

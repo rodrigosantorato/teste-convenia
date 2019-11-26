@@ -13,7 +13,7 @@ class CompaniesTableSeeder extends Seeder
         foreach(range(1, 30) as $index)
         {
             Company::create([
-                'company_name' => $faker->company,
+                'name' => $faker->company,
                 'email' => $faker->email,
                 'password' => $faker->password,
                 'street_name' => $faker->streetName,

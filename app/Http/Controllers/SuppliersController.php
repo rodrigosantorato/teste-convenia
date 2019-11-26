@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Supplier;
 use App\Transformers\SupplierTransformer;
 use Illuminate\Support\Facades\Response;
@@ -16,26 +17,35 @@ class SuppliersController extends ApiController
         $this->supplierTransformer = $supplierTransformer;
     }
 
-    public function index()
+    public function index($id)
     {
-        $suppliers = Supplier::all();
-        return Response::json([
-            'data' => $this->supplierTransformer->transformCollection($suppliers->all())
+        $supplier = Company::find($id)->suppliers()->get()->toArray();
+
+        if (!$supplier)
+        {
+            return $this->respondNotFound('Não achei esse Fornecedor...');
+        }
+        return $this->respond([
+            'Suppliers' => $this->supplierTransformer->transformCollection($supplier)
         ]);
     }
 
     public function show($id)
     {
-        $supplier = Supplier::find($id);
+        $supplier = Company::find($id)->suppliers()->get()->toArray();
 
         if (!$supplier)
         {
             return $this->respondNotFound('Não achei esse Fornecedor :(');
         }
-
         return $this->respond([
-            'data' => $this->supplierTransformer->transform($supplier)
+            'Suppliers' => $this->supplierTransformer->transformCollection($supplier)
         ]);
+    }
+
+    public function store()
+    {
+        dd('oi');
     }
 
 }
