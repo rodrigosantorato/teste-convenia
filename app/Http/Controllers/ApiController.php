@@ -27,9 +27,14 @@ class ApiController extends Controller
        return $this->setStatusCode(IlluminateResponse::HTTP_NOT_FOUND)->respondWithError($message);
     }
 
-    public function respondCreated($data)
+    public function respondCreated($message)
     {
-       return $this->setStatusCode(IlluminateResponse::HTTP_CREATED)->respond($data);
+       return $this->setStatusCode(IlluminateResponse::HTTP_CREATED)->respond($message);
+    }
+
+    public function respondBadRequest($message)
+    {
+       return $this->setStatusCode(IlluminateResponse::HTTP_BAD_REQUEST)->respond($message);
     }
 
     public function respondUnauthorized($message)

@@ -11,7 +11,7 @@ class Company extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'street_name', 'street_number', 'additional_info', 'city', 'state' , 'cep', 'cnpj'
+        'name', 'email', 'password', 'phone', 'street_name', 'address_number', 'additional_info', 'city', 'state' , 'cep', 'cnpj'
     ];
 
     protected $hidden = [

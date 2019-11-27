@@ -17,13 +17,12 @@ class CompaniesTableSeeder extends Seeder
                 'email' => $faker->email,
                 'password' => $faker->password,
                 'street_name' => $faker->streetName,
-                'street_number' => $faker->numberBetween(14, 1298),
-                'additional_info' => $faker->sentence,
+                'address_number' => $faker->numberBetween(14, 1298),
                 'city' => $faker->city,
                 'state' => $faker->state,
-                'cep' => $faker->numerify('########'),
+                'cep' => $faker->numerify('090#####'),
                 'cnpj' => $faker->numerify('##############'),
-                'phone' => $faker->phoneNumber
+                'phone' => $faker->numerify('11#########')
             ]);
         }
     }

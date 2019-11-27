@@ -14,7 +14,7 @@ class CompanyTransformer extends Transformer
             'password' => $company['password'],
             'phone' => $company['phone'],
             'street_name' => $company['street_name'],
-            'street_number' =>  $company['street_number'],
+            'address_number' =>  $company['address_number'],
             'additional_info' => $company['additional_info'],
             'city' => $company['city'],
             'state' => $company['state'],

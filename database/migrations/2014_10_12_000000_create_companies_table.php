@@ -10,13 +10,13 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 255);
-            $table->string('email', 255)->unique();
+            $table->string('name');
+            $table->string('email')->unique();
             $table->string('password');
-            $table->string('phone');
+            $table->string('phone', 11|10);
             $table->string('street_name', 70);
-            $table->unsignedInteger('street_number');
-            $table->string('additional_info', 255);
+            $table->unsignedInteger('address_number');
+            $table->string('additional_info')->nullable(true)->default(null);
             $table->string('city', 70);
             $table->string('state', 70);
             $table->string('cep', 8);

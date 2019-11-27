@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Http\Requests\CompanyRequest;
 use App\Transformers\CompanyTransformer;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CompaniesController extends ApiController
 {
@@ -38,4 +40,17 @@ class CompaniesController extends ApiController
         ]);
     }
 
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), getRules(), getMessages());
+
+        if ($validator->fails()) {
+            return $this->respondBadRequest($validator->errors());
+        }
+
+        $company = new Company($validator->validated());
+
+
+        return $company;
+    }
 }
