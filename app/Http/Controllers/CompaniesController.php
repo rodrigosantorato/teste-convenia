@@ -15,42 +15,42 @@ class CompaniesController extends ApiController
 
     function __construct(CompanyTransformer $companyTransformer)
     {
-        $this->companyTransformer = $companyTransformer;
+//        $this->companyTransformer = $companyTransformer;
     }
 
-    public function index()
-    {
-        $companies = Company::all();
-        return Response::json([
-            'data' => $this->companyTransformer->transformCollection($companies->all())
-        ]);
-    }
-
-    public function show($id)
-    {
-        $company = Company::find($id);
-
-        if (!$company)
-        {
-            return $this->respondNotFound('Não achei essa Empresa...');
-        }
-
-        return $this->respond([
-            'Company Info' => $this->companyTransformer->transform($company)
-        ]);
-    }
+//    public function index()
+//    {
+//        $companies = Company::all();
+//        return Response::json([
+//            'data' => $this->companyTransformer->transformCollection($companies->all())
+//        ]);
+//    }
+//
+//    public function show($id)
+//    {
+//        $company = Company::find($id);
+//
+//        if (!$company)
+//        {
+//            return $this->respondNotFound('Não achei essa Empresa...');
+//        }
+//
+//        return $this->respond([
+//            'Company Info' => $this->companyTransformer->transform($company)
+//        ]);
+//    }
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), getRules(), getMessages());
+        $validator = Validator::make($request->all(), CompanyRules(), CompanyMessages());
 
         if ($validator->fails()) {
             return $this->respondBadRequest($validator->errors());
         }
 
-        $company = new Company($validator->validated());
+        Company::create($validator->validated());
 
 
-        return $company;
+        return $this->respondCreated('Empresa cadastrada com sucesso');
     }
 }

@@ -11,7 +11,7 @@ class SupplierTransformer extends Transformer
         return [
             'name' => $supplier['name'],
             'email' => $supplier['email'],
-            'monthly_fee' => BrlTransformer::transformToBrl($supplier['monthly_fee'])
+            'monthly_fee' => formatCurrency($supplier['monthly_fee'])
         ];
     }
 }

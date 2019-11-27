@@ -7,6 +7,7 @@ use App\Supplier;
 use App\Transformers\SupplierTransformer;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SuppliersController extends ApiController
 {
@@ -43,9 +44,17 @@ class SuppliersController extends ApiController
         ]);
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        dd('oi');
-    }
+        $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
 
+        if ($validator->fails()) {
+            return $this->respondBadRequest($validator->errors());
+        }
+
+        Supplier::create($validator->validated());
+
+
+        return $this->respondCreated('Empresa cadastrada com sucesso');
+    }
 }

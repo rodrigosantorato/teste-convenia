@@ -14,11 +14,11 @@ class CreateCompaniesTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone', 11|10);
-            $table->string('street_name', 70);
+            $table->string('street_name');
             $table->unsignedInteger('address_number');
             $table->string('additional_info')->nullable(true)->default(null);
-            $table->string('city', 70);
-            $table->string('state', 70);
+            $table->string('city');
+            $table->string('state');
             $table->string('cep', 8);
             $table->string('cnpj', 14);
             $table->rememberToken();
