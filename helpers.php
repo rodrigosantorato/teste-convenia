@@ -64,9 +64,9 @@ function supplierRules()
 function supplierMessages()
 {
     return [
-        'name.required' => 'Está faltando o nome.',
+        'name.required' => 'Acho que você esqueceu o nome do fornecedor.',
         'name.max' => 'Opa! Esse nome é um pouco grande demais, não é?.',
-        'email.required' => 'Está faltando o email.',
+        'email.required' => 'Acho que você esqueceu o email.',
         'email.email' => 'Por favor use um email válido.',
         'email.max' => 'Opa! Esse email é um pouco grande demais, não é?.',
         'monthly_fee.required' => 'Acho que você esqueceu a mensalidade.',
