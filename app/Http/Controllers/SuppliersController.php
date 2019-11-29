@@ -31,9 +31,11 @@ class SuppliersController extends ApiController
         ]);
     }
 
-    public function show($companyId, $supplierId)
+    public function show(Request $request, Company $company, Supplier $supplier)
     {
-        $supplier = Supplier::find($supplierId);
+        if ($request['api_token'] != $company->api_token) {
+            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+        }
 
         if (!$supplier)
         {
@@ -44,15 +46,18 @@ class SuppliersController extends ApiController
         ]);
     }
 
-    public function store(Request $request, $companyId)
+    public function store(Request $request, Company $company)
     {
         $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
 
         if ($validator->fails()) {
             return $this->respondBadRequest($validator->errors());
         }
+        if ($request['api_token'] != $company->api_token) {
+            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+        }
 
-        $supplier = Company::findOrFail($companyId)->suppliers()->create($validator->validated());
+        $supplier = Company::findOrFail($company->id)->suppliers()->create($validator->validated());
 
         return $this->respondCreated([
             'Supplier' => $this->supplierTransformer->transform($supplier)

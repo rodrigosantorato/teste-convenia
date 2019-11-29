@@ -14,7 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::resource('companies', 'CompaniesController', ['only' => ['store', 'show']]);
-Route::resource('companies.suppliers', 'SuppliersController');
+Route::resource('companies.suppliers', 'SuppliersController', ['except' => ['create', 'edit']])->middleware('auth:api');
+Route::post('companies/{company}/token', 'ApiTokenController@update');
 //Route::middleware('auth:api')->get('/suppliers/{supplier}', function (Request $request) {
 //    return $request->user();
 //});

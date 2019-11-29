@@ -21,6 +21,7 @@ class CreateCompaniesTable extends Migration
             $table->string('state');
             $table->string('cep', 8);
             $table->string('cnpj', 14);
+            $table->string('api_token', 80)->unique()->nullable()->default(null);
             $table->rememberToken();
             $table->timestamps();
         });
