@@ -13,7 +13,7 @@ function companyRules()
         'email' => 'required|email|unique:companies|max:255',
         'phone' => 'required|digits_between:10,11',
         'street_name' => 'required|max:255',
-        'address_number' => 'required|integer|max:10',
+        'address_number' => 'required|integer|digits_between:1,10',
         'additional_info' => 'nullable|max:255',
         'city' => 'required|max:255',
         'state' => 'required|max:255',
@@ -39,7 +39,7 @@ function companyMessages()
         'street_name.max' => 'Opa! Esse endereço é um pouco grande demais, não é?.',
         'address_number.required' => 'Está faltando o número da casa.',
         'address_number.integer' => 'Use números para o número do Lote.',
-        'address_number.max' => 'Opa! Esse número de lote é um pouco grande demais, não é?.',
+        'address_number.digits_between' => 'Opa! Esse número de lote é um pouco grande demais, não é?.',
         'additional_info.max' => 'Opa! Tem informação demais aí, não é mesmo?.',
         'city.required' => 'Está faltando a cidade.',
         'city.max' => 'Opa! Esse nome de cidade é um pouco grande demais, não é?.',
@@ -57,7 +57,7 @@ function supplierRules()
     return [
         'name' => 'required|max:255',
         'email' => 'required|email|max:255',
-        'monthly_fee' => 'required|integer|max:255'
+        'monthly_fee' => 'required|integer|digits_between:1,254'
         ];
 }
 
@@ -71,6 +71,6 @@ function supplierMessages()
         'email.max' => 'Opa! Esse email é um pouco grande demais, não é?.',
         'monthly_fee.required' => 'Acho que você esqueceu a mensalidade.',
         'monthly_fee.integer' => 'A mensalidade é informada em centavos e sem vírgulas ou pontos. Exemplo: R$ 2.500,00 deve ser informado como 250000',
-        'monthly_fee.max' => 'Essa mensalidade é grande demais.'
+        'monthly_fee.digits_between' => 'Essa mensalidade é grande demais.'
     ];
 }

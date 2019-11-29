@@ -18,33 +18,33 @@ class SuppliersController extends ApiController
         $this->supplierTransformer = $supplierTransformer;
     }
 
-    public function index($id)
+    public function index($companyId)
     {
-        $supplier = Company::find($id)->suppliers()->get()->toArray();
+        $suppliers = Company::find($companyId)->suppliers()->get()->toArray();
+
+        if (!$suppliers)
+        {
+            return $this->respondNotFound('Não achei nenhum Fornecedor...');
+        }
+        return $this->respond([
+            'Suppliers' => $this->supplierTransformer->transformCollection($suppliers)
+        ]);
+    }
+
+    public function show($companyId, $supplierId)
+    {
+        $supplier = Supplier::find($supplierId);
 
         if (!$supplier)
         {
             return $this->respondNotFound('Não achei esse Fornecedor...');
         }
         return $this->respond([
-            'Suppliers' => $this->supplierTransformer->transformCollection($supplier)
+            'Suppliers' => $this->supplierTransformer->transform($supplier)
         ]);
     }
 
-    public function show($id)
-    {
-        $supplier = Company::find($id)->suppliers()->get()->toArray();
-
-        if (!$supplier)
-        {
-            return $this->respondNotFound('Não achei esse Fornecedor :(');
-        }
-        return $this->respond([
-            'Suppliers' => $this->supplierTransformer->transformCollection($supplier)
-        ]);
-    }
-
-    public function store(Request $request)
+    public function store(Request $request, $companyId)
     {
         $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
 
@@ -52,9 +52,29 @@ class SuppliersController extends ApiController
             return $this->respondBadRequest($validator->errors());
         }
 
-        Supplier::create($validator->validated());
+        $supplier = Company::findOrFail($companyId)->suppliers()->create($validator->validated());
 
+        return $this->respondCreated([
+            'Supplier' => $this->supplierTransformer->transform($supplier)
+        ]);
+    }
 
-        return $this->respondCreated('Empresa cadastrada com sucesso');
+    public function update(Request $request, $companyId, Supplier $supplier)
+    {
+        $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
+        if ($validator->fails()) {
+            return $this->respondBadRequest($validator->errors());
+        }
+
+        $supplier->update($validator->validated());
+
+        return $this->respondNoContent();
+    }
+
+    public function destroy(Company $company, Supplier $supplier)
+    {
+        $supplier->delete();
+
+        return $this->respondNoContent();
     }
 }

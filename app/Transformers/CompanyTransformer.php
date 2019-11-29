@@ -9,6 +9,7 @@ class CompanyTransformer extends Transformer
     public function transform($company)
     {
         return [
+            'id' => $company['id'],
             'name' => $company['name'],
             'email' => $company['email'],
             'password' => $company['password'],

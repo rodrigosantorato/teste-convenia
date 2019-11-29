@@ -15,7 +15,7 @@ class CompaniesController extends ApiController
 
     function __construct(CompanyTransformer $companyTransformer)
     {
-//        $this->companyTransformer = $companyTransformer;
+        $this->companyTransformer = $companyTransformer;
     }
 
 //    public function index()
@@ -48,9 +48,10 @@ class CompaniesController extends ApiController
             return $this->respondBadRequest($validator->errors());
         }
 
-        Company::create($validator->validated());
+        $company = Company::create($validator->validated());
 
-
-        return $this->respondCreated('Empresa cadastrada com sucesso');
+        return $this->respondCreated([
+            'Company' => $this->companyTransformer->transform($company)
+        ]);
     }
 }

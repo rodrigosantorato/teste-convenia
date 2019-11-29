@@ -10,6 +10,11 @@ class Supplier extends Model
         'name', 'email', 'monthly_fee'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function companies()
     {
         return $this->belongsTo(Company::class);
