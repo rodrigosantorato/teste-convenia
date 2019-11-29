@@ -18,9 +18,9 @@ class SuppliersController extends ApiController
         $this->supplierTransformer = $supplierTransformer;
     }
 
-    public function index($companyId)
+    public function index(Company $company)
     {
-        $suppliers = Company::find($companyId)->suppliers()->get()->toArray();
+        $suppliers = $company->suppliers()->get()->toArray();
 
         if (!$suppliers)
         {
@@ -31,10 +31,8 @@ class SuppliersController extends ApiController
         ]);
     }
 
-    public function show($companyId, $supplierId)
+    public function show(Company $company, Supplier $supplier)
     {
-        $supplier = Supplier::find($supplierId);
-
         if (!$supplier)
         {
             return $this->respondNotFound('Não achei esse Fornecedor...');
@@ -44,7 +42,7 @@ class SuppliersController extends ApiController
         ]);
     }
 
-    public function store(Request $request, $companyId)
+    public function store(Request $request, Company $company)
     {
         $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
 
@@ -52,14 +50,14 @@ class SuppliersController extends ApiController
             return $this->respondBadRequest($validator->errors());
         }
 
-        $supplier = Company::findOrFail($companyId)->suppliers()->create($validator->validated());
+        $supplier = $company->suppliers()->create($validator->validated());
 
         return $this->respondCreated([
             'Supplier' => $this->supplierTransformer->transform($supplier)
         ]);
     }
 
-    public function update(Request $request, $companyId, Supplier $supplier)
+    public function update(Request $request, Company $company, Supplier $supplier)
     {
         $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
         if ($validator->fails()) {
