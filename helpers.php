@@ -10,7 +10,7 @@ function companyRules()
     return [
         'name' => 'required|max:255',
         'password' => 'required|max:255',
-        'email' => 'required|email|unique:companies|max:255',
+        'email' => 'required|email|unique:users|max:255',
         'phone' => 'required|digits_between:10,11',
         'street_name' => 'required|max:255',
         'address_number' => 'required|integer|digits_between:1,10',

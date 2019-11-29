@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\Transformers\CompanyTransformer;
+use App\User;
+use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CompaniesController extends ApiController
+class UsersController extends ApiController
 {
-    protected $companyTransformer;
+    protected $userTransformer;
 
-    function __construct(CompanyTransformer $companyTransformer)
+    function __construct(UserTransformer $userTransformer)
     {
-        $this->companyTransformer = $companyTransformer;
+        $this->userTransformer = $userTransformer;
     }
 
     public function store(Request $request)
@@ -24,10 +24,10 @@ class CompaniesController extends ApiController
             return $this->respondBadRequest($validator->errors());
         }
 
-        $company = Company::create($validator->validated());
+        $user = User::create($validator->validated());
 
         return $this->respondCreated([
-            'Company' => $this->companyTransformer->transform($company)
+            'Company' => $this->userTransformer->transform($user)
         ]);
     }
 }

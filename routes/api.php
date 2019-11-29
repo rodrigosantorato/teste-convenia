@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('companies', 'CompaniesController', ['only' => ['store', 'show']]);
-Route::resource('companies.suppliers', 'SuppliersController')->middleware('auth:api');
+Route::resource('users', 'UsersController', ['only' => ['store', 'show']]);
+Route::resource('users.suppliers', 'SuppliersController');
 //Route::middleware('auth:api')->get('/suppliers/{supplier}', function (Request $request) {
 //    return $request->user();
 //});

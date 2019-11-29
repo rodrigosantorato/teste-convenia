@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
+use App\User;
 use App\Supplier;
 use App\Transformers\SupplierTransformer;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class SuppliersController extends ApiController
         $this->supplierTransformer = $supplierTransformer;
     }
 
-    public function index(Company $company)
+    public function index(User $company)
     {
         $suppliers = $company->suppliers()->get()->toArray();
 
@@ -30,7 +30,7 @@ class SuppliersController extends ApiController
         ]);
     }
 
-    public function show(Company $company, Supplier $supplier)
+    public function show(User $company, Supplier $supplier)
     {
         if (!$supplier)
         {
@@ -41,7 +41,7 @@ class SuppliersController extends ApiController
         ]);
     }
 
-    public function store(Request $request, Company $company)
+    public function store(Request $request, User $company)
     {
         $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
 
@@ -56,7 +56,7 @@ class SuppliersController extends ApiController
         ]);
     }
 
-    public function update(Request $request, Company $company, Supplier $supplier)
+    public function update(Request $request, User $company, Supplier $supplier)
     {
         $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
         if ($validator->fails()) {
@@ -68,7 +68,7 @@ class SuppliersController extends ApiController
         return $this->respondNoContent();
     }
 
-    public function destroy(Company $company, Supplier $supplier)
+    public function destroy(User $company, Supplier $supplier)
     {
         $supplier->delete();
 

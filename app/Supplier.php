@@ -15,8 +15,8 @@ class Supplier extends Model
         'updated_at',
     ];
 
-    public function companies()
+    public function users()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class);
     }
 }
