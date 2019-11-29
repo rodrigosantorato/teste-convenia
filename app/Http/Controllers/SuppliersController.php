@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Supplier;
 use App\Transformers\SupplierTransformer;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Response as IlluminateResponse;
-use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {

@@ -15,7 +15,7 @@ class CompaniesTableSeeder extends Seeder
             Company::create([
                 'name' => $faker->company,
                 'email' => $faker->email,
-                'password' => $faker->password,
+                'password' => $faker->name,
                 'street_name' => $faker->streetName,
                 'address_number' => $faker->numberBetween(14, 1298),
                 'city' => $faker->city,
