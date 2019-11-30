@@ -3,32 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Services\Authenticator;
+use App\Services\SupplierValidator;
 use App\Supplier;
 use App\Transformers\SupplierTransformer;
-use App\Transformers\TotalTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class SuppliersController extends ApiController
 {
     protected $supplierTransformer;
+    protected $authenticator;
+    protected $supplierValidator;
 
-    protected $totalTransformer;
-
-    function __construct(SupplierTransformer $supplierTransformer, TotalTransformer $totalTransformer)
+    function __construct(SupplierTransformer $supplierTransformer, Authenticator $authenticator,
+                         SupplierValidator $supplierValidator)
     {
+        $this->authenticator = $authenticator;
         $this->supplierTransformer = $supplierTransformer;
-        $this->totalTransformer = $totalTransformer;
+        $this->supplierValidator = $supplierValidator;
     }
 
     public function index(Request $request, Company $company)
     {
-        if ($request['api_token'] !== $company->api_token || $company->api_token == null) {
+        if(!$this->authenticator->authenticate($request, $company)) {
             return $this->respondUnauthorized('Você não tá autorizado, bebê.');
         }
-        $suppliers = $company->suppliers()->get()->toArray();
-
-        if (!$suppliers)
+        if (!$suppliers = $company->suppliers()->get()->toArray())
         {
             return $this->respondNotFound('Não achei nenhum Fornecedor...');
         }
@@ -39,34 +40,31 @@ class SuppliersController extends ApiController
 
     public function total(Request $request, Company $company)
     {
-        if ($request['api_token'] !== $company->api_token || $company->api_token == null) {
+        if(!$this->authenticator->authenticate($request, $company)) {
             return $this->respondUnauthorized('Você não tá autorizado, bebê.');
         }
         $total = 0;
         foreach ($company->suppliers()->get() as $supplier) {
             $total = $supplier->monthly_fee + $total;
         }
-
         if (!$total)
         {
             return $this->respondNotFound('Não achei nenhum Fornecedor...');
         }
         return $this->respond([
-            'Total' => $this->totalTransformer->transform($total)
+            'Total' => formatCurrency($total)
         ]);
     }
 
     public function show(Request $request, Company $company, Supplier $supplier)
     {
-        if ($request['api_token'] !== $company->api_token || $company->api_token == null || $company->id !== $supplier->company_id) {
-            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+        if(!$this->authenticator->authenticateSupplier($request, $company, $supplier)) {
+           return $this->respondUnauthorized('Você não tá autorizado, bebê.');
         }
-
         if (!$supplier)
         {
             return $this->respondNotFound('Não achei esse Fornecedor...');
         }
-
         return $this->respond([
             'Suppliers' => $this->supplierTransformer->transform($supplier)
         ]);
@@ -74,19 +72,13 @@ class SuppliersController extends ApiController
 
     public function store(Request $request, Company $company)
     {
-        if ($request['api_token'] !== $company->api_token || $company->api_token == null) {
+        if(!$this->authenticator->authenticate($request, $company)) {
             return $this->respondUnauthorized('Você não tá autorizado, bebê.');
         }
-        $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors());
+        if (!$this->supplierValidator->validate($request)) {
+            return $this->respondBadRequest($this->supplierValidator->errors());
         }
-        if ($request['api_token'] != $company->api_token) {
-            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
-        }
-
-        $supplier = Company::findOrFail($company->id)->suppliers()->create($validator->validated());
+        $supplier = $company->suppliers()->create($this->supplierValidator->validated());
 
         return $this->respondCreated([
             'Supplier' => $this->supplierTransformer->transform($supplier)
@@ -95,7 +87,7 @@ class SuppliersController extends ApiController
 
     public function update(Request $request, Company $company, Supplier $supplier)
     {
-        if ($request['api_token'] !== $company->api_token || $company->api_token == null || $company->id !== $supplier->company_id) {
+        if(!$this->authenticator->authenticateSupplier($request, $company, $supplier)) {
             return $this->respondUnauthorized('Você não tá autorizado, bebê.');
         }
         $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
@@ -110,7 +102,7 @@ class SuppliersController extends ApiController
 
     public function destroy(Request $request, Company $company, Supplier $supplier)
     {
-        if ($request['api_token'] !== $company->api_token || $company->api_token == null || $company->id !== $supplier->company_id) {
+        if(!$this->authenticator->authenticateSupplier($request, $company, $supplier)) {
             return $this->respondUnauthorized('Você não tá autorizado, bebê.');
         }
         $supplier->delete();
