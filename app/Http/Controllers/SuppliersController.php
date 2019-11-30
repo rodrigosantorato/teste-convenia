@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Supplier;
 use App\Transformers\SupplierTransformer;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -64,7 +63,7 @@ class SuppliersController extends ApiController
         ]);
     }
 
-    public function update(Request $request, $companyId, Supplier $supplier)
+    public function update(Request $request, Company $company, Supplier $supplier)
     {
         $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
         if ($validator->fails()) {
