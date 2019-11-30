@@ -25,7 +25,6 @@ class UsersController extends ApiController
         }
 
         $user = User::create($validator->validated());
-        dd($user);
 
         $token = $user->createToken('Access Token')->accessToken;
 
