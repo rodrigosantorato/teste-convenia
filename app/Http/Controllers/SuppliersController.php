@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Supplier;
 use App\Transformers\SupplierTransformer;
+use App\Transformers\TotalTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,14 +13,17 @@ class SuppliersController extends ApiController
 {
     protected $supplierTransformer;
 
-    function __construct(SupplierTransformer $supplierTransformer)
+    protected $totalTransformer;
+
+    function __construct(SupplierTransformer $supplierTransformer, TotalTransformer $totalTransformer)
     {
         $this->supplierTransformer = $supplierTransformer;
+        $this->totalTransformer = $totalTransformer;
     }
 
-    public function index($companyId)
+    public function index(Company $company)
     {
-        $suppliers = Company::find($companyId)->suppliers()->get()->toArray();
+        $suppliers = $company->suppliers()->get()->toArray();
 
         if (!$suppliers)
         {
@@ -30,9 +34,25 @@ class SuppliersController extends ApiController
         ]);
     }
 
+    public function total(Company $company)
+    {
+        $total = 0;
+        foreach ($company->suppliers()->get() as $supplier) {
+            $total = $supplier->monthly_fee + $total;
+        }
+
+        if (!$total)
+        {
+            return $this->respondNotFound('Não achei nenhum Fornecedor...');
+        }
+        return $this->respond([
+            'Total' => $this->totalTransformer->transform($total)
+        ]);
+    }
+
     public function show(Request $request, Company $company, Supplier $supplier)
     {
-        if ($request['api_token'] != $company->api_token) {
+        if ($request['api_token'] !== $company->api_token || $company->api_token == null || $company->id !== $supplier->company_id) {
             return $this->respondUnauthorized('Você não tá autorizado, bebê.');
         }
 
@@ -40,6 +60,7 @@ class SuppliersController extends ApiController
         {
             return $this->respondNotFound('Não achei esse Fornecedor...');
         }
+
         return $this->respond([
             'Suppliers' => $this->supplierTransformer->transform($supplier)
         ]);

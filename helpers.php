@@ -74,3 +74,13 @@ function supplierMessages()
         'monthly_fee.digits_between' => 'Essa mensalidade é grande demais.'
     ];
 }
+
+function getTokenRules()
+{
+
+}
+
+function getTokenMessages()
+{
+
+}

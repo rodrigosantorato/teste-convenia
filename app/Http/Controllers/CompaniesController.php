@@ -18,28 +18,6 @@ class CompaniesController extends ApiController
         $this->companyTransformer = $companyTransformer;
     }
 
-//    public function index()
-//    {
-//        $companies = Company::all();
-//        return Response::json([
-//            'data' => $this->companyTransformer->transformCollection($companies->all())
-//        ]);
-//    }
-//
-//    public function show($id)
-//    {
-//        $company = Company::find($id);
-//
-//        if (!$company)
-//        {
-//            return $this->respondNotFound('Não achei essa Empresa...');
-//        }
-//
-//        return $this->respond([
-//            'Company Info' => $this->companyTransformer->transform($company)
-//        ]);
-//    }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), CompanyRules(), CompanyMessages());
