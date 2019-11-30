@@ -25,6 +25,9 @@ class UsersController extends ApiController
         }
 
         $user = User::create($validator->validated());
+        dd($user);
+
+        $token = $user->createToken('Access Token')->accessToken;
 
         return $this->respondCreated([
             'Company' => $this->userTransformer->transform($user)
