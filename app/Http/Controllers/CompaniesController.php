@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
-use App\Http\Requests\CompanyRequest;
 use App\Transformers\CompanyTransformer;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

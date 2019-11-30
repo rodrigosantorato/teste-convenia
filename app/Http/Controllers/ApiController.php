@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Response as IlluminateResponse;
-use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
@@ -46,11 +45,6 @@ class ApiController extends Controller
     {
        return $this->setStatusCode(IlluminateResponse::HTTP_UNAUTHORIZED)->respondWithError($message);
     }
-
-//    public function respondInternalError($message)
-//    {
-//       return $this->setStatusCode(IlluminateResponse::HTTP_INTERNAL_SERVER_ERROR)->respondWithError($message);
-//    }
 
     public function respond($data, $headers = [])
     {

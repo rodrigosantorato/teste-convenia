@@ -21,8 +21,11 @@ class SuppliersController extends ApiController
         $this->totalTransformer = $totalTransformer;
     }
 
-    public function index(Company $company)
+    public function index(Request $request, Company $company)
     {
+        if ($request['api_token'] !== $company->api_token || $company->api_token == null) {
+            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+        }
         $suppliers = $company->suppliers()->get()->toArray();
 
         if (!$suppliers)
@@ -34,8 +37,11 @@ class SuppliersController extends ApiController
         ]);
     }
 
-    public function total(Company $company)
+    public function total(Request $request, Company $company)
     {
+        if ($request['api_token'] !== $company->api_token || $company->api_token == null) {
+            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+        }
         $total = 0;
         foreach ($company->suppliers()->get() as $supplier) {
             $total = $supplier->monthly_fee + $total;
@@ -68,6 +74,9 @@ class SuppliersController extends ApiController
 
     public function store(Request $request, Company $company)
     {
+        if ($request['api_token'] !== $company->api_token || $company->api_token == null) {
+            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+        }
         $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
 
         if ($validator->fails()) {
@@ -86,6 +95,9 @@ class SuppliersController extends ApiController
 
     public function update(Request $request, Company $company, Supplier $supplier)
     {
+        if ($request['api_token'] !== $company->api_token || $company->api_token == null || $company->id !== $supplier->company_id) {
+            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+        }
         $validator = Validator::make($request->all(), supplierRules(), supplierMessages());
         if ($validator->fails()) {
             return $this->respondBadRequest($validator->errors());
@@ -96,8 +108,11 @@ class SuppliersController extends ApiController
         return $this->respondNoContent();
     }
 
-    public function destroy(Company $company, Supplier $supplier)
+    public function destroy(Request $request, Company $company, Supplier $supplier)
     {
+        if ($request['api_token'] !== $company->api_token || $company->api_token == null || $company->id !== $supplier->company_id) {
+            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+        }
         $supplier->delete();
 
         return $this->respondNoContent();
