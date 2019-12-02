@@ -15,13 +15,13 @@ class SuppliersTableSeeder extends Seeder
             Supplier::create([
                 'name' => $faker->company,
                 'email' => $faker->email,
-                'monthly_fee' => $faker->randomNumber(2),
+                'monthly_fee' => $faker->randomNumber(7),
                 'company_id' => $company->id
             ]);
             Supplier::create([
                 'name' => $faker->company,
                 'email' => $faker->email,
-                'monthly_fee' => $faker->randomNumber(2),
+                'monthly_fee' => $faker->randomNumber(9),
                 'company_id' => $company->id
             ]);
         }
