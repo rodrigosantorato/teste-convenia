@@ -77,10 +77,8 @@ function supplierMessages()
 
 function getTokenRules()
 {
-
 }
 
 function getTokenMessages()
 {
-
 }

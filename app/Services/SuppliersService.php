@@ -3,7 +3,6 @@
 
 namespace App\Services;
 
-
 use App\Company;
 use App\Supplier;
 use Illuminate\Http\Request;

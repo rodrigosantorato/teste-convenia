@@ -3,7 +3,6 @@
 
 namespace App\Transformers;
 
-
 class TotalTransformer extends Transformer
 {
     public function transform($total)

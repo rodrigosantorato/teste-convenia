@@ -3,7 +3,6 @@
 
 namespace App\Transformers;
 
-
 class SupplierTransformer extends Transformer
 {
     public function transform($supplier)

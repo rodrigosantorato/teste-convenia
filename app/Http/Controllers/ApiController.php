@@ -23,12 +23,12 @@ class ApiController extends Controller
 
     public function respondNotFound($message = 'Não encontrado')
     {
-       return $this->setStatusCode(IlluminateResponse::HTTP_NOT_FOUND)->respondWithError($message);
+        return $this->setStatusCode(IlluminateResponse::HTTP_NOT_FOUND)->respondWithError($message);
     }
 
     public function respondCreated($data)
     {
-       return $this->setStatusCode(IlluminateResponse::HTTP_CREATED)->respond($data);
+        return $this->setStatusCode(IlluminateResponse::HTTP_CREATED)->respond($data);
     }
 
     public function respondNoContent()
@@ -38,12 +38,12 @@ class ApiController extends Controller
 
     public function respondBadRequest($message)
     {
-       return $this->setStatusCode(IlluminateResponse::HTTP_BAD_REQUEST)->respondWithError($message);
+        return $this->setStatusCode(IlluminateResponse::HTTP_BAD_REQUEST)->respondWithError($message);
     }
 
     public function respondUnauthorized($message)
     {
-       return $this->setStatusCode(IlluminateResponse::HTTP_UNAUTHORIZED)->respondWithError($message);
+        return $this->setStatusCode(IlluminateResponse::HTTP_UNAUTHORIZED)->respondWithError($message);
     }
 
     public function respond($data, $headers = [])

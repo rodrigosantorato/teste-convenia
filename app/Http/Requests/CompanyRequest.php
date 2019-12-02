@@ -66,7 +66,7 @@ class CompanyRequest
         ]);
 
         if ($validator->fails()) {
-           return $validator->errors();
+            return $validator->errors();
         }
         return $validator->validated();
     }

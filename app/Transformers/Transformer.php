@@ -3,7 +3,6 @@
 
 namespace App\Transformers;
 
-
 abstract class Transformer
 {
     public function transformCollection(array $items)
@@ -11,5 +10,5 @@ abstract class Transformer
         return array_map([$this, 'transform'], $items);
     }
 
-    public abstract function transform($item);
+    abstract public function transform($item);
 }

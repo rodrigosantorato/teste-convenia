@@ -11,8 +11,7 @@ class SuppliersTableSeeder extends Seeder
     {
         $faker = Faker::create();
         $companies = Company::all();
-        foreach($companies as $company)
-        {
+        foreach ($companies as $company) {
             Supplier::create([
                 'name' => $faker->company,
                 'email' => $faker->email,

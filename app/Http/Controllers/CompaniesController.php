@@ -11,7 +11,7 @@ class CompaniesController extends ApiController
 {
     protected $companyTransformer;
 
-    function __construct(CompanyTransformer $companyTransformer)
+    public function __construct(CompanyTransformer $companyTransformer)
     {
         $this->companyTransformer = $companyTransformer;
     }

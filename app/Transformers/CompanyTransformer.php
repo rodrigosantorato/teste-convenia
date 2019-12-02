@@ -3,7 +3,6 @@
 
 namespace App\Transformers;
 
-
 class CompanyTransformer extends Transformer
 {
     public function transform($company)
