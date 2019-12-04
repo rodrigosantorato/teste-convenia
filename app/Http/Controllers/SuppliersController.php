@@ -22,7 +22,7 @@ class SuppliersController extends ApiController
     public function index(Request $request, Company $company)
     {
         if (!$this->service->authenticate($request, $company)) {
-            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+            return $this->respondUnauthorized('Usuário não autorizado.');
         }
         if (!$suppliers = $company->suppliers()->get()->toArray()) {
             return $this->respond('');
@@ -35,18 +35,17 @@ class SuppliersController extends ApiController
     public function total(Request $request, Company $company)
     {
         if (!$this->service->authenticate($request, $company)) {
-            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+            return $this->respondUnauthorized('Usuário não autorizado.');
         }
-        $this->service->calculateTotal($company);
         return $this->respond([
-            'Total' => formatCurrency($this->service->getTotal())
+            'Total' => formatCurrency($company->suppliers()->sum('monthly_fee'))
         ]);
     }
 
     public function show(Request $request, Company $company, Supplier $supplier)
     {
         if (!$this->service->authenticateSupplier($request, $company, $supplier)) {
-            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+            return $this->respondUnauthorized('Usuário não autorizado.');
         }
         return $this->respond([
             'Suppliers' => $this->supplierTransformer->transform($supplier)
@@ -56,7 +55,7 @@ class SuppliersController extends ApiController
     public function store(Request $request, Company $company)
     {
         if (!$this->service->authenticate($request, $company)) {
-            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+            return $this->respondUnauthorized('Usuário não autorizado.');
         }
         if (!$this->service->validate($request)) {
             return $this->respondBadRequest($this->service->validationErrors());
@@ -71,7 +70,7 @@ class SuppliersController extends ApiController
     public function update(Request $request, Company $company, Supplier $supplier)
     {
         if (!$this->service->authenticateSupplier($request, $company, $supplier)) {
-            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+            return $this->respondUnauthorized('Usuário não autorizado.');
         }
         if (!$this->service->validate($request)) {
             return $this->respondBadRequest($this->service->validationErrors());
@@ -84,7 +83,7 @@ class SuppliersController extends ApiController
     public function destroy(Request $request, Company $company, Supplier $supplier)
     {
         if (!$this->service->authenticateSupplier($request, $company, $supplier)) {
-            return $this->respondUnauthorized('Você não tá autorizado, bebê.');
+            return $this->respondUnauthorized('Usuário não autorizado.');
         }
         $supplier->delete();
 

@@ -12,7 +12,6 @@ class SuppliersService
 {
     protected $validationErrors;
     protected $validated;
-    protected $total;
 
     public function validate(Request $request)
     {
@@ -50,21 +49,5 @@ class SuppliersService
             return false;
         }
         return true;
-    }
-
-    public function calculateTotal(Company $company)
-    {
-        foreach ($company->suppliers()->get() as $supplier) {
-            $this->total = $supplier->monthly_fee + $this->total;
-        }
-        if (!$this->total) {
-            return false;
-        }
-        return true;
-    }
-
-    public function getTotal()
-    {
-        return $this->total;
     }
 }
