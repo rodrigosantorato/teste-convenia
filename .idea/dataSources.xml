@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/teste-convenia</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name=":memory" uuid="68ca959a-d0e5-4cbd-b066-5c776191362a">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/:memory</jdbc-url>
+    </data-source>
   </component>
 </project>

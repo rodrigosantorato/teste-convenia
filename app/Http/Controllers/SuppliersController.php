@@ -48,7 +48,7 @@ class SuppliersController extends ApiController
             return $this->respondUnauthorized('Usuário não autorizado.');
         }
         return $this->respond([
-            'Suppliers' => $this->supplierTransformer->transform($supplier)
+            'Supplier' => $this->supplierTransformer->transform($supplier)
         ]);
     }
 

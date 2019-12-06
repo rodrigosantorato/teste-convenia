@@ -17,6 +17,7 @@ class ApiTokenController extends ApiController
         $company->forceFill([
             'api_token' => $token
         ])->save();
+//dd($company);
         return $this->respond(['token' => $token]);
     }
 }

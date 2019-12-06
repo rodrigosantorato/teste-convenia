@@ -36,18 +36,18 @@ class SuppliersService
 
     public function authenticate(Request $request, Company $company)
     {
-        if ($request['api_token'] !== $company->api_token || $company->api_token == null) {
-            return false;
-        }
+//        if ($request['api_token'] !== $company->api_token || $company->api_token == null) {
+//            return false;
+//        }
         return true;
     }
 
     public function authenticateSupplier(Request $request, Company $company, Supplier $supplier)
     {
-        if ($request['api_token'] !== $company->api_token || $company->api_token == null
-            || $company->id !== $supplier->company_id) {
-            return false;
-        }
+//        if ($request['api_token'] !== $company->api_token || $company->api_token == null
+//            || $company->id !== $supplier->company_id) {
+//            return false;
+//        }
         return true;
     }
 }
